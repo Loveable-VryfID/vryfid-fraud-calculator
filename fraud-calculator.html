@@ -633,24 +633,24 @@
     if (target === currentStep) return;
     var prev = document.getElementById('step' + currentStep);
     var next = document.getElementById('step' + target);
-
-    // Direction
     var goingForward = target > currentStep;
 
-    prev.classList.remove('active');
-    prev.classList.add(goingForward ? 'exit-left' : '');
-    prev.style.transform = goingForward ? 'translateX(-60px)' : 'translateX(60px)';
-    prev.style.opacity = '0';
-    prev.style.pointerEvents = 'none';
+    // Hide previous step
+    prev.classList.remove('active', 'exit-left');
+    if (goingForward) prev.classList.add('exit-left');
     prev.style.position = 'absolute';
 
-    next.style.transform = goingForward ? 'translateX(60px)' : 'translateX(-60px)';
-    next.style.opacity = '0';
+    // Prepare next step off-screen, then animate in
+    next.classList.remove('active', 'exit-left');
     next.style.position = 'relative';
+    next.style.opacity = '0';
+    next.style.transform = goingForward ? 'translateX(60px)' : 'translateX(-60px)';
+    next.style.pointerEvents = 'none';
     next.offsetHeight; // force reflow
+
     next.classList.add('active');
-    next.style.transform = '';
     next.style.opacity = '';
+    next.style.transform = '';
     next.style.pointerEvents = '';
 
     currentStep = target;
